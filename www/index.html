@@ -1,5 +1,5 @@
 <!DOCTYPE HTML>
-<html>
+<html lang="ja">
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -29,11 +29,11 @@
             });
 
             $('#btnA').click(function (e) {
-                btnAClick(e);
+                btnAClick();
             });
 
             $('#btnB').click(function (e) {
-                btnBClick(e);
+                btnBClick();
             });
 
             $('#btnC').click(function (e) {
@@ -154,9 +154,9 @@
 
 
         // 変数宣言
-        var active = false;
-        var startTime = 0;
-        var period = 0;
+        let active = false;
+        let startTime = 0;
+        let period = 0;
 
         // ボタンの初期設定
         function init() {
@@ -168,13 +168,13 @@
 
         // Alarmの処理
         function alarm() {
-            var canvas = $("#mycanvas")[0];
-            var ctx = canvas.getContext("2d");
-            var img = new Image();
+            let canvas = $("#mycanvas")[0];
+            let ctx = canvas.getContext("2d");
+            let img = new Image();
             img.src = "ksuisbg.gif";
             img.onload = function () {
                 ctx.drawImage(img, 0, 0, 300, 300);
-                var audio = new Audio();
+                let audio = new Audio();
                 audio.src = "pin.wav";
                 audio.play();
             }
@@ -182,13 +182,13 @@
         }
 
         // ButtonAがクリックされた時の処理
-        function btnAClick(e) {
+        function btnAClick() {
             active = true;
             startTime = new Date();
         }
 
         // ButtonBがクリックされた時の処理
-        function btnBClick(e) {
+        function btnBClick() {
             active = false;
         }
 
@@ -206,7 +206,7 @@
         // 繰り返し実行する処理
         function timer() {
             if (active) {
-                var time = parseInt((new Date() - startTime) / 1000);
+                let time = parseInt((new Date() - startTime) / 1000);
                 var rest = period - time;
                 $("#time").html("経過時間:" + time);
                 $("#remain").html("残り時間:" + rest);
@@ -219,6 +219,7 @@
         }
 
     </script>
+    <title>Timer</title>
 </head>
 <body>
 <canvas id="mycanvas" width="300" height="300">Test</canvas>
