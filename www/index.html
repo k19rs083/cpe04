@@ -1,233 +1,237 @@
 <!DOCTYPE HTML>
 <html>
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-  <meta http-equiv="Content-Security-Policy" content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
-  <script src="components/loader.js"></script>
-  <script src="lib/onsenui/js/onsenui.min.js"></script>
-  <link rel="stylesheet" href="components/loader.css">
-  <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
-  <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
-  <link rel="stylesheet" href="css/style.css">
-  <style>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <meta http-equiv="Content-Security-Policy"
+          content="default-src * data: gap: https://ssl.gstatic.com; style-src * 'unsafe-inline'; script-src * 'unsafe-inline' 'unsafe-eval'">
+    <script src="components/loader.js"></script>
+    <script src="lib/onsenui/js/onsenui.min.js"></script>
+    <link rel="stylesheet" href="components/loader.css">
+    <link rel="stylesheet" href="lib/onsenui/css/onsenui.css">
+    <link rel="stylesheet" href="lib/onsenui/css/onsen-css-components.css">
+    <link rel="stylesheet" href="css/style.css">
+    <style>
 
-  </style>
-  <script>
-    // timer処理
-    $(function(){
-        setInterval(function(){
-            timer();
-        },500);
-    });  
-      
-    // ready クリックの処理の登録
-    $(function() { 
-        $('#date').click(function(e) {
-            setDebugMode(e);
-        });
-      
-        $('#btnA').click(function(e) {
-            btnAClick(e);
+    </style>
+    <script>
+        // timer処理
+        $(function () {
+            setInterval(function () {
+                timer();
+            }, 500);
         });
 
-        $('#btnB').click(function(e) {
-            btnBClick(e);
+        // ready クリックの処理の登録
+        $(function () {
+            $('#date').click(function (e) {
+                setDebugMode(e);
+            });
+
+            $('#btnA').click(function (e) {
+                btnAClick(e);
+            });
+
+            $('#btnB').click(function (e) {
+                btnBClick(e);
+            });
+
+            $('#btnC').click(function (e) {
+                btnCClick(e);
+            });
+            init();
         });
 
-        $('#btnC').click(function(e) {
-            btnCClick(e);
-        });
-        init();
-    });
-    
-    function rgbToColor(r,g,b){
-        return "#" + hex02(r)+hex02(g)+hex02(b);
-    }
-    
-    function hex02(x) {
-        var str = "0"+x.toString(16);
-        return str.substring(str.length-2);
-    }
-    
-    function decS2(x) {
-        if (x<10) {
-            return "&nbsp;"+x.toString(10);
-        } else { 
-            return x.toString(10);
+        function rgbToColor(r, g, b) {
+            return "#" + hex02(r) + hex02(g) + hex02(b);
         }
-    }
-    
-    function dec02(x) {
-        var str = "0"+x.toString(10);
-        return str.substring(str.length-2);        
-    }
 
-    var debug = false;
-    // Statusがクリックされた時の処理
-    function setDebugMode(e){
-        debug = !debug;
-        $("#status").html("Debug Mode: "+debug);
-    }
-    
-    // 座標を計算
-    // getX(中心x座標,角度(1で一周),長さ(1で最大)
-    function getX(cx,d,r){
-        return cx + Math.sin(d*2*3.14)*cx*r;
-    }
-    // getY(中心y座標,角度(1で一周),長さ(1で最大)
-    function getY(cy,d,r){
-        return cy - Math.cos(d*2*3.14)*cy*r;
-    }
-    // 線を描く
-    // line(context,x1,y1,x2,y2,線の太さ,色)    
-    function line(ctx,x1,y1,x2,y2,width,color){
-        ctx.lineWidth = width; 
-        ctx.lineCap = "round"; 
-        ctx.strokeStyle = color;
-        ctx.beginPath();
-        ctx.moveTo(x1, y1);
-        ctx.lineTo(x2, y2);
-        ctx.stroke();        
-    }    
-    // 時計 clock(時, 分, 秒, 残り時間が短い時に不要な針を隠す)
-    function clock(hour,minute,second,hide){
-        var canvas = $('#mycanvas')[0];
-        var ctx = canvas.getContext('2d');
-        ctx.fillStyle = 'rgba(255, 255, 255, 0.4)'; 
-        ctx.fillRect(0,0,canvas.width,canvas.height);
-        var cx = canvas.width/2;
-        var cy = canvas.height/2;
-        var ds = second/60;
-        var dm = (minute+ds)/60;
-        var dh = (hour%12+dm)/12;
+        function hex02(x) {
+            var str = "0" + x.toString(16);
+            return str.substring(str.length - 2);
+        }
 
-        for(var i = 0; i < 60; i++) {
-            var px = getX(cx,i/60,0.9);
-            var py = getY(cy,i/60,0.9);
-            ctx.fillStyle = 'rgb(0, 255, 0)'; 
+        function decS2(x) {
+            if (x < 10) {
+                return "&nbsp;" + x.toString(10);
+            } else {
+                return x.toString(10);
+            }
+        }
+
+        function dec02(x) {
+            var str = "0" + x.toString(10);
+            return str.substring(str.length - 2);
+        }
+
+        var debug = false;
+
+        // Statusがクリックされた時の処理
+        function setDebugMode(e) {
+            debug = !debug;
+            $("#status").html("Debug Mode: " + debug);
+        }
+
+        // 座標を計算
+        // getX(中心x座標,角度(1で一周),長さ(1で最大)
+        function getX(cx, d, r) {
+            return cx + Math.sin(d * 2 * 3.14) * cx * r;
+        }
+
+        // getY(中心y座標,角度(1で一周),長さ(1で最大)
+        function getY(cy, d, r) {
+            return cy - Math.cos(d * 2 * 3.14) * cy * r;
+        }
+
+        // 線を描く
+        // line(context,x1,y1,x2,y2,線の太さ,色)
+        function line(ctx, x1, y1, x2, y2, width, color) {
+            ctx.lineWidth = width;
+            ctx.lineCap = "round";
+            ctx.strokeStyle = color;
             ctx.beginPath();
-            ctx.arc(px, py, 2, 0, Math.PI*2, false);
-            ctx.fill();
-        }
-        
-        for(var i = 0; i < 12; i++) {
-            var px = getX(cx,i/12,0.9);
-            var py = getY(cy,i/12,0.9);
-            ctx.fillStyle = 'rgb(255, 255, 0)'; 
-            ctx.beginPath();
-            ctx.arc(px, py, 5, 0, Math.PI*2, false);
-            ctx.fill();
+            ctx.moveTo(x1, y1);
+            ctx.lineTo(x2, y2);
+            ctx.stroke();
         }
 
-        if ((!hide) || hour > 0) {
-            var px = getX(cx,dh,0.4);
-            var py = getY(cy,dh,0.4);
-            line(ctx,cx,cy,px,py,20, 'rgb(255, 100, 162)')
+        // 時計 clock(時, 分, 秒, 残り時間が短い時に不要な針を隠す)
+        function clock(hour, minute, second, hide) {
+            var canvas = $('#mycanvas')[0];
+            var ctx = canvas.getContext('2d');
+            ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+            var cx = canvas.width / 2;
+            var cy = canvas.height / 2;
+            var ds = second / 60;
+            var dm = (minute + ds) / 60;
+            var dh = (hour % 12 + dm) / 12;
+
+            for (var i = 0; i < 60; i++) {
+                var px = getX(cx, i / 60, 0.9);
+                var py = getY(cy, i / 60, 0.9);
+                ctx.fillStyle = 'rgb(0, 255, 0)';
+                ctx.beginPath();
+                ctx.arc(px, py, 2, 0, Math.PI * 2, false);
+                ctx.fill();
+            }
+
+            for (var i = 0; i < 12; i++) {
+                var px = getX(cx, i / 12, 0.9);
+                var py = getY(cy, i / 12, 0.9);
+                ctx.fillStyle = 'rgb(255, 255, 0)';
+                ctx.beginPath();
+                ctx.arc(px, py, 5, 0, Math.PI * 2, false);
+                ctx.fill();
+            }
+
+            if ((!hide) || hour > 0) {
+                var px = getX(cx, dh, 0.4);
+                var py = getY(cy, dh, 0.4);
+                line(ctx, cx, cy, px, py, 20, 'rgb(255, 100, 162)')
+            }
+            if ((!hide) || hour > 0 || minute > 0) {
+                var px = getX(cx, dm, 0.6);
+                var py = getY(cy, dm, 0.6);
+                line(ctx, cx, cy, px, py, 15, 'rgb(128, 255, 162)')
+            }
+            var px = getX(cx, ds, 0.9);
+            var py = getY(cy, ds, 0.9);
+            line(ctx, cx, cy, px, py, 5, 'rgb(128, 100, 255)')
         }
-        if ((!hide) || hour > 0|| minute > 0) {
-            var px = getX(cx,dm,0.6);
-            var py = getY(cy,dm,0.6);
-            line(ctx,cx,cy,px,py,15, 'rgb(128, 255, 162)')
+
+        // 残り秒数アナログ表示
+        function analog(rest) {
+            var h = parseInt(rest / 3600);
+            var m = parseInt((rest - h * 3600) / 60);
+            var s = parseInt(rest - h * 3600 - m * 60);
+            clock(h, m, s, true);
+
         }
-        var px = getX(cx,ds,0.9);
-        var py = getY(cy,ds,0.9);
-        line(ctx,cx,cy,px,py,5, 'rgb(128, 100, 255)')
-    }
-
-    // 残り秒数アナログ表示
-    function analog(rest){
-        var h = parseInt(rest/3600);
-        var m = parseInt((rest-h*3600)/60);
-        var s = parseInt(rest-h*3600-m*60);
-        clock(h,m,s,true);
-
-    }
 
 
+        // これより上は編集しなくて良い
 
-// これより上は編集しなくて良い
+
+        // 変数宣言
+        var active = false;
+        var startTime = 0;
+        var period = 0;
+
+        // ボタンの初期設定
+        function init() {
+            $('#btnA').prop('disabled', false);
+            $('#btnB').prop('disabled', false);
+            $('#btnC').prop('disabled', false);
+
+        }
+
+        // Alarmの処理
+        function alarm() {
+            var canvas = $("#mycanvas")[0];
+            var ctx = canvas.getContext("2d");
+            var img = new Image();
+            img.src = "ksuisbg.gif";
+            img.onload = function () {
+                ctx.drawImage(img, 0, 0, 300, 300);
+                var audio = new Audio();
+                audio.src = "pin.wav";
+                audio.play();
+            }
+
+        }
+
+        // ButtonAがクリックされた時の処理
+        function btnAClick(e) {
+            active = true;
+            startTime = new Date();
+        }
+
+        // ButtonBがクリックされた時の処理
+        function btnBClick(e) {
+            active = false;
+        }
+
+        // ButtonCがクリックされた時の処理
+        function btnCClick(e) {
+            alarm();
+            active = false;
+            period = 60 * parseInt($("#minute").val()) +
+                parseInt($("#second").val());
+            $("#time").html("経過時間: 0");
+            $("#remain").html("残り時間: " + period);
+        }
 
 
-    // 変数宣言
-    var active = false;
-    var startTime = 0;
-    var period = 0;
+        // 繰り返し実行する処理
+        function timer() {
+            if (active) {
+                var time = parseInt((new Date() - startTime) / 1000);
+                var rest = period - time;
+                $("#time").html("経過時間:" + time);
+                $("#remain").html("残り時間:" + rest);
+                analog(rest);
+            }
+            if (rest <= 0) {
+                active = false;
+                alarm();
+            }
+        }
 
-    // ボタンの初期設定
-    function init(){
-        $('#btnA').prop('disabled', false);
-        $('#btnB').prop('disabled', false);
-        $('#btnC').prop('disabled', false);
-        
-    }
-
-    // Alarmの処理
-    function alarm(){
-        var canvas = $("#mycanvas")[0];
-        var ctx = canvas.getContext("2d");
-        var img = new Image();
-        img.src = "ksuisbg.gif";
-        img.onload = function() {
-        ctx.drawImage(img, 0, 0, 300, 300);
-        var audio = new Audio();
-        audio.src = "pin.wav";
-        audio.play();
-      }
-        
-    }
-    
-    // ButtonAがクリックされた時の処理
-    function btnAClick(e){
-        active = true;
-        startTime = new Date();
-    }
-
-    // ButtonBがクリックされた時の処理
-    function btnBClick(e){
-         active = false;
-    }
-
-    // ButtonCがクリックされた時の処理
-    function btnCClick(e){
-        alarm();
-        active = false;
-        period = 60 * parseInt($("#minute").val()) +
-          parseInt($("#second").val());
-          $("#time").html("経過時間: 0");
-          $("#remain").html("残り時間: " + period);
-    }
-    
- 
-    // 繰り返し実行する処理
-    function timer(){
-      if(active){
-        var time = parseInt((new Date() - startTime) / 1000);
-        var rest = period - time;
-        $("#time").html("経過時間:" + time);
-        $("#remain").html("残り時間:" + rest);
-        analog(rest);
-      }
-      if(rest <= 0){
-        active = false;
-        alarm();
-      }
-    }
-
-  </script>
+    </script>
 </head>
 <body>
-    <canvas id="mycanvas" width="300" height="300">Test</canvas>
+<canvas id="mycanvas" width="300" height="300">Test</canvas>
 
-    <div id="minuteStr">〇</div>
-    <div id="secondStr">〇</div>
+<div id="minuteStr">〇</div>
+<div id="secondStr">〇</div>
 
-    <div id="remain">Remaining time</div>
-    <div id="time">Time</div>
-    <button id="btnA">ButtonA</button>  
-    <button id="btnB">ButtonB</button>  
-    <button id="btnC">ButtonC</button>  
-    <input type="number" id="minute" value=3 >
-    <input type="number" id="second" value=0 >
+<div id="remain">Remaining time</div>
+<div id="time">Time</div>
+<button id="btnA">ButtonA</button>
+<button id="btnB">ButtonB</button>
+<button id="btnC">ButtonC</button>
+<input type="number" id="minute" value=3>
+<input type="number" id="second" value=0>
 </body>
 </html>
