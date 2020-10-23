@@ -25,7 +25,7 @@
         // ready クリックの処理の登録
         $(function () {
             $('#date').click(function (e) {
-                setDebugMode(e);
+                setDebugMode();
             });
 
             $('#btnA').click(function (e) {
@@ -67,7 +67,7 @@
         var debug = false;
 
         // Statusがクリックされた時の処理
-        function setDebugMode(e) {
+        function setDebugMode() {
             debug = !debug;
             $("#status").html("Debug Mode: " + debug);
         }
@@ -142,9 +142,9 @@
 
         // 残り秒数アナログ表示
         function analog(rest) {
-            var h = parseInt(rest / 3600);
-            var m = parseInt((rest - h * 3600) / 60);
-            var s = parseInt(rest - h * 3600 - m * 60);
+            let h = parseInt(rest / 3600);
+            let m = parseInt((rest - h * 3600) / 60);
+            let s = parseInt(rest - h * 3600 - m * 60);
             clock(h, m, s, true);
 
         }
