@@ -97,7 +97,7 @@
 
         // 時計 clock(時, 分, 秒, 残り時間が短い時に不要な針を隠す)
         function clock(hour, minute, second, hide) {
-            var canvas = $('#mycanvas')[0];
+            var canvas = $('#myCanvas')[0];
             var ctx = canvas.getContext('2d');
             ctx.fillStyle = 'rgba(255, 255, 255, 0.4)';
             ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -168,7 +168,7 @@
 
         // Alarmの処理
         function alarm() {
-            let canvas = $("#mycanvas")[0];
+            let canvas = $("#myCanvas")[0];
             let ctx = canvas.getContext("2d");
             let img = new Image();
             img.src = "ksuisbg.gif";
@@ -226,7 +226,7 @@
     <title>Timer</title>
 </head>
 <body>
-<canvas id="mycanvas" width="300" height="300">Test</canvas>
+<canvas id="myCanvas" width="300" height="300">Test</canvas>
 
 <div id="minuteStr">〇</div>
 <div id="secondStr">〇</div>
