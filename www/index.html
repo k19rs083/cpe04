@@ -204,15 +204,18 @@
 
 
         // 繰り返し実行する処理
+        let restTime = 0;
+        let pastTime = 0;
+
         function timer() {
             if (active) {
-                let time = parseInt((new Date() - startTime) / 1000);
-                var rest = period - time;
-                $("#time").html("経過時間:" + time);
-                $("#remain").html("残り時間:" + rest);
-                analog(rest);
+                pastTime = parseInt((new Date() - startTime) / 1000);
+                restTime = period - pastTime;
+                $("#time").html("経過時間:" + pastTime);
+                $("#remain").html("残り時間:" + restTime);
+                analog(restTime);
             }
-            if (rest <= 0) {
+            if (restTime <= 0) {
                 active = false;
                 alarm();
             }
@@ -232,7 +235,7 @@
 <button id="btnA">ButtonA</button>
 <button id="btnB">ButtonB</button>
 <button id="btnC">ButtonC</button>
-<input type="number" id="minute" value=3>
-<input type="number" id="second" value=0>
+<label for="minute">minute</label><input type="number" id="minute" value=3>
+<label for="second">second</label><input type="number" id="second" value=0>
 </body>
 </html>
