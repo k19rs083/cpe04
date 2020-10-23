@@ -198,8 +198,9 @@
             active = false;
             period = 60 * parseInt($("#minute").val()) +
                 parseInt($("#second").val());
-            $("#time").html("経過時間: 0");
-            $("#remain").html("残り時間: " + period);
+            $("#time").html("経過時間: 0秒");
+            $("#remain").html("残り時間: " + period + "秒");
+            restTime = 65535;
         }
 
 
@@ -211,8 +212,8 @@
             if (active) {
                 pastTime = parseInt((new Date() - startTime) / 1000);
                 restTime = period - pastTime;
-                $("#time").html("経過時間:" + pastTime);
-                $("#remain").html("残り時間:" + restTime);
+                $("#time").html("経過時間:" + pastTime + "秒");
+                $("#remain").html("残り時間:" + restTime + "秒");
                 analog(restTime);
             }
             if (restTime <= 0) {
@@ -230,11 +231,11 @@
 <div id="minuteStr">〇</div>
 <div id="secondStr">〇</div>
 
-<div id="remain">Remaining time</div>
-<div id="time">Time</div>
-<button id="btnA">ButtonA</button>
-<button id="btnB">ButtonB</button>
-<button id="btnC">ButtonC</button>
+<div id="remain">残り時間: 0秒</div>
+<div id="time">経過時間: 0秒</div>
+<button id="btnA">Start</button>
+<button id="btnB">Pause</button>
+<button id="btnC">Set</button>
 <input type="number" id="minute" value=3>
 <input type="number" id="second" value=0>
 </body>
