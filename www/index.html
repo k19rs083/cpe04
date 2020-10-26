@@ -110,7 +110,7 @@
             for (var i = 0; i < 60; i++) {
                 var px = getX(cx, i / 60, 0.9);
                 var py = getY(cy, i / 60, 0.9);
-                ctx.fillStyle = 'rgb(0, 255, 0)';
+                ctx.fillStyle = 'rgb(0,255,0)';
                 ctx.beginPath();
                 ctx.arc(px, py, 2, 0, Math.PI * 2, false);
                 ctx.fill();
@@ -182,35 +182,37 @@
         }
 
         let isPaused = false; // 計測開始後に一時中断してる間だけtrue
-        let stopTime = 0; // btnBが押されたときに残り時間を記憶しておくための変数
+        let pausedPastTime = 0; // btnBが押されたときに経過時間を記憶しておくための変数
 
         // ButtonAがクリックされた時の処理
         function btnAClick() {
             active = true;
-            if(isPaused){
-                startTime = stopTime;
-            } else {
-                startTime = new Date();
-            }
+            startTime = new Date();
         }
 
         // ButtonBがクリックされた時の処理
         function btnBClick() {
             active = false;
             isPaused = true;
-            stopTime = new Date();
-
+            // period = restTime;
+            pausedPastTime = pastTime;
+            restTime = 65535; // うるさいアラームを止めるにはこうするしかない
+            $("#time").css("color", "#DEDEDE");
+            $("#remain").css("color", "#DEDEDE");
         }
 
         // ButtonCがクリックされた時の処理
         function btnCClick() {
-            isPaused = false; // この処理がないとリセットされない
+            pausedPastTime = 0; // この処理がないと経過時間がリセットされない
+            restTime = 65535; // うるさいアラームを止めるにはこうするしかない
             active = false;
             period = 60 * parseInt($("#minute").val()) +
                 parseInt($("#second").val());
-            $("#time").html("経過: 0秒");
-            $("#remain").html("あと: " + period + "秒");
-            restTime = 65535;
+            $("#time").html("経過: 0秒").css("color", "#DEDEDE");
+            $("#remain").html("あと: " + period + "秒").css("color", "#DEDEDE");
+            for (let i = 0; i < 10; i++) {
+                analog(period);
+            }
         }
 
 
@@ -220,10 +222,10 @@
 
         function timer() {
             if (active) {
-                pastTime = parseInt((new Date() - startTime) / 1000);
+                pastTime = parseInt((new Date() - startTime) / 1000) + pausedPastTime;
                 restTime = period - pastTime;
-                $("#time").html("経過:" + pastTime + "秒");
-                $("#remain").html("あと:" + restTime + "秒");
+                $("#time").html("経過: " + pastTime + "秒").css("color", "#00FF00");
+                $("#remain").html("あと: " + restTime + "秒").css("color", "#00FF00");
                 analog(restTime);
             }
             if (restTime <= 0) {
@@ -245,7 +247,7 @@
 <div id="time">経過: 0秒</div>
 <button id="btnA">Start</button>
 <button id="btnB">Pause</button>
-<button id="btnC">Set</button>
+<button id="btnC">Reset</button>
 <input type="number" id="minute" value=3>
 <input type="number" id="second" value=0>
 </body>
