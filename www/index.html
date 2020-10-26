@@ -181,15 +181,25 @@
 
         }
 
+        let isPaused = false;
+        let stopTime = 0;
+
         // ButtonAがクリックされた時の処理
         function btnAClick() {
             active = true;
-            startTime = new Date();
+            if(isPaused){
+                startTime = stopTime;
+            } else {
+                startTime = new Date();
+            }
         }
 
         // ButtonBがクリックされた時の処理
         function btnBClick() {
             active = false;
+            isPaused = true;
+            stopTime = new Date();
+
         }
 
         // ButtonCがクリックされた時の処理
