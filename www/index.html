@@ -154,9 +154,9 @@
 
 
         // 変数宣言
-        let active = false;
-        let startTime = 0;
-        let period = 0;
+        let isActive = false; // 計時中か否か
+        let startTime = 0; // カウントを開始した時刻?
+        let setTime = 0; // セットした時間
 
         // ボタンの初期設定
         function init() {
@@ -181,20 +181,18 @@
 
         }
 
-        let isPaused = false; // 計測開始後に一時中断してる間だけtrue
+         // 計測開始後に一時中断してる間だけtrue
         let pausedPastTime = 0; // btnBが押されたときに経過時間を記憶しておくための変数
 
         // ButtonAがクリックされた時の処理
         function btnAClick() {
-            active = true;
+            isActive = true;
             startTime = new Date();
         }
 
         // ButtonBがクリックされた時の処理
         function btnBClick() {
-            active = false;
-            isPaused = true;
-            // period = restTime;
+            isActive = false;
             pausedPastTime = pastTime;
             restTime = 65535; // うるさいアラームを止めるにはこうするしかない
             $("#time").css("color", "#DEDEDE");
@@ -205,13 +203,13 @@
         function btnCClick() {
             pausedPastTime = 0; // この処理がないと経過時間がリセットされない
             restTime = 65535; // うるさいアラームを止めるにはこうするしかない
-            active = false;
-            period = 60 * parseInt($("#minute").val()) +
+            isActive = false;
+            setTime = 60 * parseInt($("#minute").val()) +
                 parseInt($("#second").val());
             $("#time").html("経過: 0秒").css("color", "#DEDEDE");
-            $("#remain").html("あと: " + period + "秒").css("color", "#DEDEDE");
+            $("#remain").html("あと: " + setTime + "秒").css("color", "#DEDEDE");
             for (let i = 0; i < 10; i++) {
-                analog(period);
+                analog(setTime);
             }
         }
 
@@ -221,15 +219,15 @@
         let pastTime = 0;
 
         function timer() {
-            if (active) {
+            if (isActive) {
                 pastTime = parseInt((new Date() - startTime) / 1000) + pausedPastTime;
-                restTime = period - pastTime;
+                restTime = setTime - pastTime;
                 $("#time").html("経過: " + pastTime + "秒").css("color", "#00FF00");
                 $("#remain").html("あと: " + restTime + "秒").css("color", "#00FF00");
                 analog(restTime);
             }
             if (restTime <= 0) {
-                active = false;
+                isActive = false;
                 alarm();
             }
         }
