@@ -37,7 +37,7 @@
             });
 
             $('#btnC').click(function (e) {
-                btnCClick(e);
+                btnCClick();
             });
             init();
         });
@@ -181,8 +181,8 @@
 
         }
 
-        let isPaused = false;
-        let stopTime = 0;
+        let isPaused = false; // 計測開始後に一時中断してる間だけtrue
+        let stopTime = 0; // btnBが押されたときに残り時間を記憶しておくための変数
 
         // ButtonAがクリックされた時の処理
         function btnAClick() {
@@ -203,8 +203,8 @@
         }
 
         // ButtonCがクリックされた時の処理
-        function btnCClick(e) {
-            alarm();
+        function btnCClick() {
+            isPaused = false; // この処理がないとリセットされない
             active = false;
             period = 60 * parseInt($("#minute").val()) +
                 parseInt($("#second").val());
